@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/leafmealone" />
+        <property name="username" value="root" />
+        <property name="password" value="rubalcaba" />
+    </bean>
+
+    <!-- repositories -->
+    <bean id="userRepository"
+          class="com.spaceapps.core.impl.UserRepositoryImpl">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="leafInfoRepository"
+          class="com.spaceapps.core.impl.LeafRepositoryImpl">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+    <!-- facades -->
+    <bean id="accountFacade"
+          class="com.spaceapps.core.facade.impl.AccountFacadeImpl" />
+
+    <bean id="leafInfoFacade"
+          class="com.spaceapps.core.facade.impl.LeafInfoFacadeImpl">
+        <constructor-arg name="repository" ref="leafInfoRepository" />
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+</beans>
